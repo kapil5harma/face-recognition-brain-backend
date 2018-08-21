@@ -1,0 +1,26 @@
+{
+  "name": "face-recognition-brain-backend",
+  "version": "1.0.0",
+  "description": "Backend for Face Recognition Brain",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kapil5harma/face-recognition-brain-backend.git"
+  },
+  "author": "Kapil",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kapil5harma/face-recognition-brain-backend/issues"
+  },
+  "homepage": "https://github.com/kapil5harma/face-recognition-brain-backend#readme",
+  "devDependencies": {
+    "nodemon": "^1.18.3"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3"
+  }
+}
