@@ -60,16 +60,28 @@ app.post('/register', (req, res) => {
 
 app.get('/profile/:id', (req, res) => {
   const { id } = req.params;
-  console.log('req.params: ', req.params);
   let found = false;
   database.users.forEach(user => {
-    console.log('user: ', user);
     if (user.id == id) {
       found = true;
       return res.json(user);
     }
   });
-  console.log('found: ', found);
+  if (!found) {
+    res.status(404).json('No Such User');
+  }
+});
+
+app.put('/image', (req, res) => {
+  const { id } = req.body;
+  let found = false;
+  database.users.forEach(user => {
+    if (user.id == id) {
+      found = true;
+      user.entries++;
+      return res.json(user.entries);
+    }
+  });
   if (!found) {
     res.status(404).json('No Such User');
   }
