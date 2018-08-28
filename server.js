@@ -58,6 +58,23 @@ app.post('/register', (req, res) => {
   res.json(database.users[database.users.length - 1]);
 });
 
+app.get('/profile/:id', (req, res) => {
+  const { id } = req.params;
+  console.log('req.params: ', req.params);
+  let found = false;
+  database.users.forEach(user => {
+    console.log('user: ', user);
+    if (user.id == id) {
+      found = true;
+      return res.json(user);
+    }
+  });
+  console.log('found: ', found);
+  if (!found) {
+    res.status(404).json('No Such User');
+  }
+});
+
 app.listen(port, () => {
   console.log('App is running on port:', port);
 });
