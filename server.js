@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const bcrypt = require('bcrypt-nodejs');
 
 const app = express();
 
@@ -24,6 +25,13 @@ const database = {
       entries: 0,
       joined: new Date()
     }
+  ],
+  login: [
+    {
+      id: 987,
+      hash: '',
+      email: 'john@gmail.com'
+    }
   ]
 };
 
@@ -47,6 +55,9 @@ app.post('/signin', (req, res) => {
 
 app.post('/register', (req, res) => {
   const { email, name, password } = req.body;
+  bcrypt.hash(password, null, null, function(err, hash) {
+    console.log('hash: ', hash);
+  });
   database.users.push({
     id: 102,
     name: name,
@@ -73,10 +84,11 @@ app.get('/profile/:id', (req, res) => {
 });
 
 app.put('/image', (req, res) => {
+  console.log('Entered "/image"');
   const { id } = req.body;
   let found = false;
   database.users.forEach(user => {
-    if (user.id == id) {
+    if (user.id === id) {
       found = true;
       user.entries++;
       return res.json(user.entries);
@@ -86,6 +98,16 @@ app.put('/image', (req, res) => {
     res.status(404).json('No Such User');
   }
 });
+
+// Bcrypt Hashing of passwords
+
+// // Load hash from your password DB.
+// bcrypt.compare("bacon", hash, function(err, res) {
+//   // res == true
+// });
+// bcrypt.compare("veggies", hash, function(err, res) {
+//   // res = false
+// });
 
 app.listen(port, () => {
   console.log('App is running on port:', port);
