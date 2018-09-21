@@ -39,10 +39,12 @@ const database = {
 
 app.get('/', (req, res) => {
   // res.send(`${req.url} is working!`);
+  console.log('Get /');
   res.json(database.users);
 });
 
 app.post('/signin', (req, res) => {
+  console.log('Post /signin');
   console.log('req: ', req.body);
   // res.json(`${req.url} is working!`);
   if (
@@ -51,7 +53,7 @@ app.post('/signin', (req, res) => {
   ) {
     res.json('Success');
   } else {
-    res.status(400).json('Error Signing In');
+    res.status(400).json('User Not Found');
   }
 });
 
