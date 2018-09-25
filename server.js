@@ -12,6 +12,14 @@ app.use(cors());
 const database = {
   users: [
     {
+      id: 102,
+      name: 'Kapil Sharma',
+      email: 'kapil.sharma@beebom.com',
+      password: '123123',
+      entries: 0,
+      joined: new Date()
+    },
+    {
       id: 100,
       name: 'John',
       email: 'john@mail.com',
@@ -88,6 +96,7 @@ app.get('/profile/:id', (req, res) => {
 });
 
 app.put('/image', (req, res) => {
+  // console.log('req.body: ', req.body);
   console.log('Entered "/image"');
   const { id } = req.body;
   let found = false;
