@@ -66,13 +66,13 @@ const database = {
 
 app.get('/', (req, res) => {
   // res.send(`${req.url} is working!`);
-  console.log('Get /');
+  // console.log('Get /');
   res.json(database.users);
 });
 
 app.post('/signin', (req, res) => {
-  console.log('Post /signin');
-  console.log('req: ', req.body);
+  // console.log('Post /signin');
+  // console.log('req: ', req.body);
   // res.json(`${req.url} is working!`);
   if (
     req.body.email === database.users[0].email &&
@@ -114,16 +114,25 @@ app.post('/register', (req, res) => {
 
 app.get('/profile/:id', (req, res) => {
   const { id } = req.params;
-  let found = false;
-  database.users.forEach(user => {
-    if (user.id == id) {
-      found = true;
-      return res.json(user);
-    }
-  });
-  if (!found) {
-    res.status(404).json('No Such User');
-  }
+  // let found = false;
+  db.select('*')
+    .from('users')
+    .where({ id: id })
+    .then(user => {
+      // console.log('\n ***** ***** ***** ***** ***** \n');
+      // console.log('[/profile/:id] user:\n\n', user[0]);
+      // console.log('\n ***** ***** ***** ***** ***** \n');
+      if (user.length) {
+        res.status(200).json(user[0]);
+      } else {
+        res.status(404).json('User Not Found');
+      }
+    })
+    .catch(err => res.status(404).json('Error getting User'));
+
+  // if (!found) {
+  //   res.status(404).json('No Such User');
+  // }
 });
 
 app.put('/image', (req, res) => {
