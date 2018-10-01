@@ -100,13 +100,16 @@ app.post('/register', (req, res) => {
   // });
 
   db('users')
+    .returning('*')
     .insert({
       name: name,
       email: email,
       joined: new Date()
     })
-    .then(console.log);
-  res.json(database.users[database.users.length - 1]);
+    .then(user => {
+      res.json(user[0]);
+    })
+    .catch(err => res.status(400).json('Email already exists'));
 });
 
 app.get('/profile/:id', (req, res) => {
