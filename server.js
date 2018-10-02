@@ -88,17 +88,6 @@ app.post('/signin', (req, res) => {
 app.post('/register', (req, res) => {
   const { email, name, password } = req.body;
 
-  // bcrypt.hash(password, null, null, function(err, hash) {
-  //   console.log('hash: ', hash);
-  // });
-  // database.users.push({
-  //   id: 102,
-  //   name: name,
-  //   email: email,
-  //   entries: 0,
-  //   joined: new Date()
-  // });
-
   db('users')
     .returning('*')
     .insert({
