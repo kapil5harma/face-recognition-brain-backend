@@ -103,7 +103,6 @@ app.post('/register', (req, res) => {
 
 app.get('/profile/:id', (req, res) => {
   const { id } = req.params;
-  // let found = false;
   db.select('*')
     .from('users')
     .where({ id: id })
@@ -118,10 +117,6 @@ app.get('/profile/:id', (req, res) => {
       }
     })
     .catch(err => res.status(404).json('Error getting User'));
-
-  // if (!found) {
-  //   res.status(404).json('No Such User');
-  // }
 });
 
 app.put('/image', (req, res) => {
