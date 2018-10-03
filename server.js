@@ -28,42 +28,6 @@ const port = 3001;
 app.use(bodyParser.json());
 app.use(cors());
 
-const database = {
-  users: [
-    {
-      id: 102,
-      name: 'Kapil Sharma',
-      email: 'kapil.sharma@beebom.com',
-      password: '123123',
-      entries: 0,
-      joined: new Date()
-    },
-    {
-      id: 100,
-      name: 'John',
-      email: 'john@mail.com',
-      password: 'bananas',
-      entries: 0,
-      joined: new Date()
-    },
-    {
-      id: 101,
-      name: 'Katy',
-      email: 'katy@mail.com',
-      password: 'mangoes',
-      entries: 0,
-      joined: new Date()
-    }
-  ],
-  login: [
-    {
-      id: 987,
-      hash: '',
-      email: 'john@gmail.com'
-    }
-  ]
-};
-
 app.get('/', (req, res) => {
   // res.send(`${req.url} is working!`);
   // console.log('Get /');
