@@ -16,11 +16,11 @@ const db = knex({
 });
 
 // console.log('db.select: ', db.select('*').from('users'));
-db.select('*')
-  .from('users')
-  .then(data => {
-    console.log('data: ', data);
-  });
+// db.select('*')
+//   .from('users')
+//   .then(data => {
+//     console.log('data: ', data);
+//   });
 
 const app = express();
 
@@ -74,31 +74,59 @@ app.post('/signin', (req, res) => {
   // console.log('Post /signin');
   // console.log('req: ', req.body);
   // res.json(`${req.url} is working!`);
-  if (
-    req.body.email === database.users[0].email &&
-    req.body.password === database.users[0].password
-  ) {
-    // res.json('Success');
-    res.json(database.users[0]);
-  } else {
-    res.status(400).json('User Not Found');
-  }
+
+  const { email, password } = req.body;
+  db.select('email', 'hash')
+    .from('login')
+    .where('email', '=', email)
+    .then(data => {
+      // console.log('\n******\n[/signin]\ndata: ', data);
+      const isValid = bcrypt.compareSync(password, data[0].hash);
+      // console.log('isValid: ', isValid);
+      if (isValid) {
+        return db
+          .select('*')
+          .from('users')
+          .where('email', '=', email)
+          .then(user => {
+            // console.log('user: ', user);
+            res.json(user[0]);
+          })
+          .catch(err => res.status(400).json('User Not Found'));
+      } else {
+        res.status(400).json('Incorrect email and/or password');
+      }
+    })
+    .catch(err => res.status(400).json('Incorrect email and/or password'));
 });
 
 app.post('/register', (req, res) => {
   const { email, name, password } = req.body;
 
-  db('users')
-    .returning('*')
-    .insert({
-      name: name,
-      email: email,
-      joined: new Date()
-    })
-    .then(user => {
-      res.json(user[0]);
-    })
-    .catch(err => res.status(400).json('Email already exists'));
+  const hash = bcrypt.hashSync(password);
+
+  // bcrypt.compareSync('bacon', hash); // true
+  // bcrypt.compareSync('veggies', hash); // false
+  db.transaction(trx => {
+    trx
+      .insert({ hash: hash, email: email })
+      .into('login')
+      .returning('email')
+      .then(loginEmail => {
+        return trx('users')
+          .returning('*')
+          .insert({
+            name: name,
+            email: loginEmail[0],
+            joined: new Date()
+          })
+          .then(user => {
+            res.json(user[0]);
+          });
+      })
+      .then(trx.commit)
+      .catch(trx.rollback);
+  }).catch(err => res.status(400).json('Email already exists'));
 });
 
 app.get('/profile/:id', (req, res) => {
