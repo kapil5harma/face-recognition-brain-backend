@@ -112,8 +112,6 @@ app.get('/profile/:id', (req, res) => {
 });
 
 app.put('/image', (req, res) => {
-  // console.log('req.body: ', req.body);
-  // console.log('Entered "/image"');
   const { id } = req.body;
   db('users')
     .where('id', '=', id)
@@ -129,24 +127,6 @@ app.put('/image', (req, res) => {
     .catch(err => res.status(400).json('Cannot get entries count.'));
 });
 
-// Bcrypt Hashing of passwords
-
-// // Load hash from your password DB.
-// bcrypt.compare("bacon", hash, function(err, res) {
-//   // res == true
-// });
-// bcrypt.compare("veggies", hash, function(err, res) {
-//   // res = false
-// });
-
 app.listen(port, () => {
   console.log('App is running on port:', port);
 });
-
-/*
-/ --> res = ${req.url} is working
-/signin --> POST = success/fail
-/register --> POST = user
-/profile/:userId --> GET = user
-/image --> PUT = user
-*/
