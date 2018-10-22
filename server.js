@@ -60,7 +60,7 @@ app.put('/image', (req, res) => {
 app.post('/imageurl', (req, res) => {
   image.handleApiCall(req, res);
 });
-let x;
-app.listen((x = process.env.port || port), () => {
+let x = process.env.port || port;
+app.listen(x, () => {
   console.log('App is running on port:', x);
 });
