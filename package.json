@@ -4,7 +4,7 @@
   "description": "Backend for Face Recognition Brain",
   "main": "script.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
