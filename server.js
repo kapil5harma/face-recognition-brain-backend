@@ -57,6 +57,6 @@ app.post('/imageurl', (req, res) => {
   image.handleApiCall(req, res);
 });
 
-app.listen(port, () => {
-  console.log('App is running on port:', port);
+app.listen(process.env.port || port, () => {
+  console.log('App is running on port:', process.env.port);
 });
