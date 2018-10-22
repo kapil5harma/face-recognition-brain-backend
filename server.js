@@ -27,6 +27,20 @@ const db = knex({
 
 const app = express();
 
+var whitelist = [
+  'https://face-recognition-front-end.herokuapp.com/',
+  'https://face-recognition-brain-backend.herokuapp.com/'
+];
+var corsOptions = {
+  origin: function(origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
+};
+
 const port = 3001;
 app.use(bodyParser.json());
 app.use(cors());
@@ -55,7 +69,7 @@ app.put('/image', (req, res) => {
   image.handleImage(req, res, db);
 });
 
-app.post('/imageurl', (req, res) => {
+app.post('/imageurl', cors(corsOptions), (req, res) => {
   image.handleApiCall(req, res);
 });
 let x;
