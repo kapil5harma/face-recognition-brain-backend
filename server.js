@@ -40,7 +40,10 @@ app.get('/', (req, res) => {
   res.json(`It's working!`);
 });
 
-app.post('/signin', signin.handleSignin(db, bcrypt)(req, res));
+// app.post('/signin', signin.handleSignin(db, bcrypt)(req, res));
+app.post('/signin', (req, res) => {
+  signin.handleSignin(req, res, db, bcrypt);
+});
 
 app.post('/register', (req, res) => {
   register.handleRegister(req, res, db, bcrypt);
@@ -57,7 +60,7 @@ app.put('/image', (req, res) => {
 app.post('/imageurl', (req, res) => {
   image.handleApiCall(req, res);
 });
-
-app.listen(process.env.port || port, () => {
-  console.log('App is running on port:', process.env.port);
+let x;
+app.listen((x = process.env.port || port), () => {
+  console.log('App is running on port:', x);
 });

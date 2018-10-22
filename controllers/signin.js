@@ -1,4 +1,5 @@
-const handleSignin = (db, bcrypt) => (req, res) => {
+// const handleSignin = (db, bcrypt) => (req, res) => {
+const handleSignin = (req, res, db, bcrypt) => {
   // console.log('Post /signin');
   // console.log('req: ', req.body);
   // res.json(`${req.url} is working!`);
