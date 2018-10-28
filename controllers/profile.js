@@ -4,9 +4,6 @@ const handleProfileGet = (req, res, db) => {
     .from('users')
     .where({ id: id })
     .then(user => {
-      // console.log('\n ***** ***** ***** ***** ***** \n');
-      // console.log('[/profile/:id] user:\n\n', user[0]);
-      // console.log('\n ***** ***** ***** ***** ***** \n');
       if (user.length) {
         res.status(200).json(user[0]);
       } else {
