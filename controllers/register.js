@@ -7,8 +7,6 @@ const handleRegister = (req, res, db, bcrypt) => {
 
   const hash = bcrypt.hashSync(password);
 
-  // bcrypt.compareSync('bacon', hash); // true
-  // bcrypt.compareSync('veggies', hash); // false
   db.transaction(trx => {
     trx
       .insert({ hash: hash, email: email })
